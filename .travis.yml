@@ -1,0 +1,3 @@
+language: generic
+install: true
+script: en-cs/test.sh
