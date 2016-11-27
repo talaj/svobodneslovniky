@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="index.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+
+        <form>
+            <input type="text" value="" id="query" oninput="search(this.value)">
+        </form>
+        <script type="text/javascript">
+            function show(result) {
+                var lines = result.split('\n');
+                var resultHTML = '<table>';
+                for (let line of lines) {
+                    var items = line.split('\t');
+                    resultHTML += '<tr><td>' + items[0] + '</td><td>' + items[1] + '</td></tr>';
+                }
+                resultHTML += '</table>';
+                document.getElementById('result').innerHTML = resultHTML;
+            }
+
+            function search(query) {
+                var pre = query.slice(0, Math.min(2, query.length));
+                if (pre in index) {
+                    var codes = [];
+                    for (var i = 0; i < pre.length; i++) {
+                        codes.push(pre.charCodeAt(i));
+                    }
+                    part = codes.join('.');
+                    console.log(codes.join('.'));
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/" + part, true);
+                    xhr.onload = function (e) {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                show(xhr.responseText);
+                            } else {
+                                console.error(xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.onerror = function (e) {
+                        console.error(xhr.statusText);
+                    };
+                    xhr.send(null);
+                }
+            }
+        </script>
+        <div id="result">
+            result
+        </div>
+    </body>
+</html>
