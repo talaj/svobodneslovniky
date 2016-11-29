@@ -31,21 +31,24 @@
                     part = codes.join('.');
                     console.log(codes.join('.'));
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "/" + part, true);
-                    xhr.onload = function (e) {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                show(xhr.responseText);
+                    var r = new XMLHttpRequest();
+                    r.open("GET", "/" + part, true);
+                    r.onload = function (e) {
+                        if (r.readyState === 4) {
+                            if (r.status === 200) {
+                                show(r.responseText);
                             } else {
-                                console.error(xhr.statusText);
+                                console.error(r.statusText);
                             }
                         }
                     };
-                    xhr.onerror = function (e) {
-                        console.error(xhr.statusText);
+                    r.onerror = function (e) {
+                        console.error(r.statusText);
                     };
-                    xhr.send(null);
+                    r.send(null);
+                }
+                else {
+
                 }
             }
         </script>
