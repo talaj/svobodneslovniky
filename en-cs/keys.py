@@ -2,6 +2,7 @@
 
 import sys
 import math
+import base64
 
 column_count = 5
 line_number = 0
@@ -18,9 +19,22 @@ for line in open("en-cs.txt"):
     entries[-1].append(entry)
 
 chunk_size = 500
-chunks = [entries[i * chunk_size:i * chunk_size + chunk_size] for i in range(math.ceil(len(entries) / chunk_size))]
+chunks = [entries[i * chunk_size:i * chunk_size + chunk_size]
+    for i in range(math.ceil(len(entries) / chunk_size))]
 
-keys = [chunk[0][0][0] for chunk in chunks]
+#keys = [chunk[0][0][0] for chunk in chunks]
+#list(map(print, keys))
+
+index = 0
+for chunk in chunks:
+    key = chunk[0][0][0]
+    key_encoded = base64.standard_b64encode(key.encode()).decode()
+    with open("chunks/{}".format(key_encoded), "w") as f:
+        for group in chunk:
+            for entry in group:
+                f.write('\t'.join(entry))
+                f.write('\n')
+
 
 #for entry in entries:
     #print('\t'.join(entry))
