@@ -2,15 +2,27 @@
 
 import sys
 import bisect
+import svobodneslovniky
 
 index = []
 with open("chunks/index") as f:
     for line in f:
-        index.append(line.rstrip('\n'))
+        index.append(line.rstrip('\n').lower())
 
-key = sys.argv[1]
+def search(chunk, query):
+    with open("chunks/{:03}".format(chunk)) as f:
+        entries = list(svobodneslovniky.read(f))
+        keys = list([entry[0] for entry in entries])
+        i = bisect.bisect(keys, query)
+        return entries[i:]
 
-print(index)
-
-i = bisect.bisect_left(index, key)
-print(i, index[i])
+for line in sys.stdin:
+    query = line.lower()
+    chunk = bisect.bisect(index, query)
+    entries = search(max(0, chunk - 1), query)
+    count = 0
+    for entry in entries:
+        print(entry[0], entry[1])
+        count += 1
+        if count == 5:
+            break
