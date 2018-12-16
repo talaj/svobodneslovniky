@@ -1,19 +1,23 @@
 import icu
 
 
-def read(file_obj):
+def check(entry, line, line_number):
     column_count = 5
+    if len(entry) != column_count:
+        raise RuntimeError('Format error on line {}: "{}"'.format(
+            line_number, line))
+    if entry != list(map(str.strip, entry)):
+        raise RuntimeError('Unnecessary whitespace characters on line {}:'
+            ' "{}"'.format(line_number, line))
+    return entry
+
+
+def read(file_obj, check=check):
     line_number = 0
     for line in file_obj:
         line_number += 1
         entry = line.rstrip('\n').split('\t')
-        if len(entry) != column_count:
-            raise RuntimeError('Format error on line {}: "{}"'.format(
-                line_number, line))
-        if entry != list(map(str.strip, entry)):
-            raise RuntimeError('Unnecessary whitespace characters on line {}:'
-                ' "{}"'.format(line_number, line))
-        yield entry
+        yield check(entry, line, line_number)
 
 
 def write(entries, file_obj):
