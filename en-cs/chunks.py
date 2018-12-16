@@ -22,8 +22,9 @@ chunk_size = 500
 chunks = [entries[i * chunk_size:i * chunk_size + chunk_size]
     for i in range(math.ceil(len(entries) / chunk_size))]
 
-#keys = [chunk[0][0][0] for chunk in chunks]
-#list(map(print, keys))
+with open("chunks/index", "w") as f:
+    keys = [chunk[0][0][0] for chunk in chunks]
+    f.write('\n'.join(keys))
 
 index = 0
 for chunk in chunks:
