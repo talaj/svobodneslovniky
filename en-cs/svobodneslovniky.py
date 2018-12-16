@@ -1,9 +1,10 @@
 import icu
 
-def read(fileObj):
+
+def read(file_obj):
     column_count = 5
     line_number = 0
-    for line in fileObj:
+    for line in file_obj:
         line_number += 1
         entry = line.rstrip('\n').split('\t')
         if len(entry) != column_count:
@@ -15,10 +16,10 @@ def read(fileObj):
         yield entry
 
 
-def write(entries, fileObj):
+def write(entries, file_obj):
     for entry in entries:
-        fileObj.write('\t'.join(entry))
-        fileObj.write('\n')
+        file_obj.write('\t'.join(entry))
+        file_obj.write('\n')
 
 
 def sort(entries):
