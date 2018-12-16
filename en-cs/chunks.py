@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import math
 import svobodneslovniky
 
@@ -22,7 +21,3 @@ for chunk in chunks:
                 f.write('\t'.join(entry))
                 f.write('\n')
     index += 1
-
-
-#for entry in entries:
-    #print('\t'.join(entry))
