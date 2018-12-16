@@ -12,12 +12,12 @@ def check(entry, line, line_number):
     return entry
 
 
-def read(file_obj, check=check):
+def read(file_obj, check_func=check):
     line_number = 0
     for line in file_obj:
         line_number += 1
         entry = line.rstrip('\n').split('\t')
-        yield check(entry, line, line_number)
+        yield check_func(entry, line, line_number)
 
 
 def write(entries, file_obj):
