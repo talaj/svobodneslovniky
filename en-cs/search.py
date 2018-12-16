@@ -2,9 +2,20 @@
 
 import sys
 import math
-import svobodneslovniky
 
-entries = list(svobodneslovniky.read(open("en-cs.txt")))
+column_count = 5
+line_number = 0
+entries = []
+
+for line in open("en-cs.txt"):
+    line_number += 1
+    entry = line.rstrip('\n').split('\t')
+    if len(entry) != column_count:
+        raise RuntimeError('Format error on line {}: "{}"'.format(line_number, line))
+    key = entry[0]
+    if not entries or entries[-1][0][0] != key:
+        entries.append([])
+    entries[-1].append(entry)
 
 chunk_size = 500
 chunks = [entries[i * chunk_size:i * chunk_size + chunk_size]
