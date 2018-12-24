@@ -20,9 +20,5 @@ for line in sys.stdin:
     query = line.lower()
     chunk = bisect.bisect(index, query)
     entries = search(max(0, chunk - 1), query)
-    count = 0
-    for entry in entries:
+    for entry in entries[:5]:
         print(entry[0], entry[1])
-        count += 1
-        if count == 5:
-            break
